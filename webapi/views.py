@@ -6,12 +6,28 @@ from .serializers import *
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.permissions import IsAdminUser
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
-class VanBangList(mixins.ListModelMixin,
-                  mixins.CreateModelMixin,
-                  generics.GenericAPIView):
+def index(request):
+    return render(request, 'search.html', {
+        'loaivanbang': LoaiVanBang.objects.all(),
+        'cosodaotao': CoSoDaoTao.objects.all()
+    })
+
+def report(request):
+    return render(request, 'report.html', {
+        'loaivanbang': LoaiVanBang.objects.all(),
+        'cosodaotao': CoSoDaoTao.objects.all()
+    })
+
+
+class VanBangList(generics.ListCreateAPIView):
     queryset = VanBang.objects.all()
     serializer_class = VanBangSerializers
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['hoten', 'cmnd', 'cosodaotao', 'namcapbang', 'sohieu', 'loai_vanbang']
+
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -20,10 +36,7 @@ class VanBangList(mixins.ListModelMixin,
         permission_classes = [IsAdminUser]
         return self.create(request, *args, **kwargs)
 
-class VanBangDetail(mixins.RetrieveModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    generics.GenericAPIView):
+class VanBangDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = VanBang.objects.all()
     serializer_class = VanBangSerializers
@@ -40,11 +53,11 @@ class VanBangDetail(mixins.RetrieveModelMixin,
         return self.destroy(request, *args, **kwargs)
 
 
-class CoSoDaoTaoList(mixins.ListModelMixin,
-                  mixins.CreateModelMixin,
-                  generics.GenericAPIView):
+class CoSoDaoTaoList(generics.ListCreateAPIView):
     queryset = CoSoDaoTao.objects.all()
     serializer_class = CoSoDaoTaoSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['ten']
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -53,10 +66,7 @@ class CoSoDaoTaoList(mixins.ListModelMixin,
         permission_classes = [IsAdminUser]
         return self.create(request, *args, **kwargs)
 
-class CoSoDaoTaoDetail(mixins.RetrieveModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    generics.GenericAPIView):
+class CoSoDaoTaoDetail(generics.RetrieveUpdateDestroyAPIView):
                     
     queryset = CoSoDaoTao.objects.all()
     serializer_class = CoSoDaoTaoSerializer
@@ -72,11 +82,11 @@ class CoSoDaoTaoDetail(mixins.RetrieveModelMixin,
         permission_classes = [IsAdminUser]
         return self.destroy(request, *args, **kwargs)
 
-class LoaiVanBangList(mixins.ListModelMixin,
-                  mixins.CreateModelMixin,
-                  generics.GenericAPIView):
+class LoaiVanBangList(generics.ListCreateAPIView):
     queryset = LoaiVanBang.objects.all()
     serializer_class = LoaiVanBangSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['ten']
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -85,10 +95,7 @@ class LoaiVanBangList(mixins.ListModelMixin,
         permission_classes = [IsAdminUser]
         return self.create(request, *args, **kwargs)
 
-class LoaiVanBangDetail(mixins.RetrieveModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    generics.GenericAPIView):
+class LoaiVanBangDetail(generics.RetrieveUpdateDestroyAPIView):
                     
     queryset = LoaiVanBang.objects.all()
     serializer_class = LoaiVanBangSerializer

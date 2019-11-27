@@ -11,16 +11,15 @@ class VanBang(models.Model):
     gioitinh = models.CharField(max_length=1, choices=CHOICES_GENDER)
     cmnd = models.CharField(max_length=12)
     cosodaotao = models.ForeignKey('CoSoDaoTao', on_delete=models.CASCADE)
-    ngaycapbang = models.DateField()
+    namcapbang = models.IntegerField()
     sohieu = models.CharField(max_length=100)
     chuyennganh = models.CharField(max_length=100)
-    
     xeploai = models.CharField(max_length=1, choices=CHOICES_RANK)
     loai_vanbang = models.ForeignKey('LoaiVanBang', on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ['sohieu']
-        ordering = ['ngaycapbang']
+        ordering = ['namcapbang']
 
     def __str__(self):
         return self.hoten

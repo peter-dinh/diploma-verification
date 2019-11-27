@@ -15,8 +15,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from webapi import views
+from django.shortcuts import redirect
+from rest_framework_swagger.views import get_swagger_view
+
+def redirect_index(request):
+    return redirect('index')
+
+
+
+schema_view = get_swagger_view(title='DOC API')
+
 
 urlpatterns = [
+    path('', views.index, name="index"),
+    path('report', views.report, name="report"),
     path('api/', include('webapi.urls')),
+    path('docs/', schema_view),
     path('api-auth/', include('rest_framework.urls')),
+    path('accounts/profile/', redirect_index)
 ]
