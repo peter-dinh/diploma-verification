@@ -2,8 +2,8 @@ from django.db import models
 
 # Create your models here.
 
-CHOICES_GENDER = (('1', 'Men'), ('0', 'Female'))
-CHOICES_RANK = (('0', 'Kem'), ('1', 'Trung Binh'), ('2', 'Kha'), ('3', 'Gioi'), ('4', 'Xuat Xac'))
+CHOICES_GENDER = (('1', 'Nam'), ('0', 'Nữ'))
+CHOICES_RANK = (('0', 'Kém'), ('1', 'Trung Bình'), ('2', 'Khá'), ('3', 'Giỏi'), ('4', 'Xuất Sắc'))
 class VanBang(models.Model):
 
     hoten = models.CharField(max_length=100)
