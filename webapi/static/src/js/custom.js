@@ -43,9 +43,9 @@ $(document).ready(function(){
                                     $row.append('<td>'+ (i+1) +'</td>');
                                     $row.append('<td>'+ record.hoten +'</td>');
                                     $row.append('<td>'+ record.ngaysinh +'</td>');
-                                    $row.append('<td>'+ record.gioitinh +'</td>');
+                                    $row.append('<td>'+ record.gioitinh_display +'</td>');
                                     $row.append('<td>'+ record.chuyennganh +'</td>');
-                                    $row.append('<td>'+ record.xeploai +'</td>');
+                                    $row.append('<td>'+ record.xeploai_display +'</td>');
                                     $row.append('<td>'+ record.ngaycapbang +'</td>');
                                     $('tbody#content_data').append($row);
                                 }
@@ -96,7 +96,7 @@ $(document).ready(function(){
                         $row.append('<td>'+ record.loai_vanbang +'</td>');
                         $row.append('<td>'+ record.cosodaotao +'</td>');
                         $row.append('<td>'+ record.ngaycapbang +'</td>');
-                        $row.append('<td>'+ record.xeploai +'</td>');
+                        $row.append('<td>'+ record.xeploai_display +'</td>');
                         $('tbody#content_data').append($row);
                     }
                     $button = $('<a href="/api/export/xls/?loaivanbang='+ loaivanbang +'&start_date='+ start_date +'&end_date='+ end_date +'" target="_blank" class="btn btn-success">In báo cáo</a>')

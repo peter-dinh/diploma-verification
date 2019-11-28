@@ -16,10 +16,12 @@ class LoaiVanBangSerializer(serializers.ModelSerializer):
 
 
 class VanBangSerializers(serializers.ModelSerializer):
-    gioitinh = serializers.ChoiceField(choices=CHOICES_GENDER, source='get_gioitinh_display')
-    xeploai = serializers.ChoiceField(choices=CHOICES_RANK, source='get_xeploai_display')
+    gioitinh = serializers.ChoiceField(choices=CHOICES_GENDER)
+    xeploai = serializers.ChoiceField(choices=CHOICES_RANK)
+    gioitinh_display = serializers.CharField(source='get_gioitinh_display')
+    xeploai_display = serializers.CharField(source='get_xeploai_display')
 
     class Meta:
         model = VanBang
         fields = ('id', 'hoten', 'ngaysinh', 'gioitinh', 'cmnd', 'cosodaotao', 'ngaycapbang',
-            'sohieu', 'chuyennganh', 'xeploai', 'loai_vanbang')
+            'sohieu', 'chuyennganh', 'xeploai', 'loai_vanbang', 'gioitinh_display', 'xeploai_display')
