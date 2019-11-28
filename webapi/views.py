@@ -71,6 +71,7 @@ def export_xls(request):
         row_num += 1
         for col_num in range(len(columns)):
             ws.write(row_num, col_num, data[key[col_num]], font_style)
+        index += 1
 
     wb.save(response)
     return response
