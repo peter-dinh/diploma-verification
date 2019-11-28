@@ -110,7 +110,7 @@ class VanBangFilter(filter_drf.FilterSet):
 
     class Meta:
         model = VanBang
-        fields = ['hoten', 'cmnd', 'cosodaotao', 'ngaycapbang', 'sohieu', 'loai_vanbang', 'start_date', 'end_date']
+        fields = ['hoten', 'cmnd', 'cosodaotao', 'ngaycapbang', 'sohieu', 'loai_vanbang', 'start_date', 'end_date', 'xeploai']
 
 class VanBangList(generics.ListCreateAPIView):
     queryset = VanBang.objects.all()
