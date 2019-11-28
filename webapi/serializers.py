@@ -20,8 +20,16 @@ class VanBangSerializers(serializers.ModelSerializer):
     xeploai = serializers.ChoiceField(choices=CHOICES_RANK)
     gioitinh_display = serializers.CharField(source='get_gioitinh_display', read_only=True)
     xeploai_display = serializers.CharField(source='get_xeploai_display', read_only=True)
+    cosodaotao_name = serializers.SerializerMethodField(read_only=True)
+    loai_vanbang_name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = VanBang
         fields = ('id', 'hoten', 'ngaysinh', 'gioitinh', 'cmnd', 'cosodaotao', 'ngaycapbang',
-            'sohieu', 'chuyennganh', 'xeploai', 'loai_vanbang', 'gioitinh_display', 'xeploai_display')
+            'sohieu', 'chuyennganh', 'xeploai', 'loai_vanbang', 'gioitinh_display', 'xeploai_display',
+            'cosodaotao_name', 'loai_vanbang_name')
+        
+    def get_cosodaotao_name(self, obj):
+        return obj.cosodaotao.ten
+    def get_loai_vanbang_name(self, obj):
+        return obj.loai_vanbang.ten

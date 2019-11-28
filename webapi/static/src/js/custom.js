@@ -93,8 +93,8 @@ $(document).ready(function(){
                         $row.append('<td>'+ record.hoten +'</td>');
                         $row.append('<td>'+ record.ngaysinh +'</td>');
                         $row.append('<td>'+ record.cmnd +'</td>');
-                        $row.append('<td>'+ record.loai_vanbang +'</td>');
-                        $row.append('<td>'+ record.cosodaotao +'</td>');
+                        $row.append('<td>'+ record.loai_vanbang_name +'</td>');
+                        $row.append('<td>'+ record.cosodaotao_name +'</td>');
                         $row.append('<td>'+ record.ngaycapbang +'</td>');
                         $row.append('<td>'+ record.xeploai_display +'</td>');
                         $('tbody#content_data').append($row);
