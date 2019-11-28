@@ -13,57 +13,44 @@ $(document).ready(function(){
         }
     })
     
+
+
+
     $('#form_tracuu').submit(function(){
-        $.ajax({
-            url: '/api/verifying/',
-            method: 'POST',
-            contentType: 'application/x-www-form-urlencoded',
-            data: {
-                response: localStorage.res_capcha,
-            },
-            success: function(response){
-                if (response.success){
-                    var hoten = $('#hoten').val();
-                    var cmnd = $('#chungminhthu').val();
-                    var loaivanbang = $('#selectloaivanbang').val();
-                    var cosodaotao = $('#selectcosodaotao').val();
-                    var namcapbang = $('#namcapbang').val();
-                    var sohieu = $('#sohieu').val();
         
-                    $.ajax({
-                        url: '/api/vanbang/?hoten_icontains='+ hoten + '&loai_vanbang=' + loaivanbang + '&cosodaotao=' + cosodaotao + '&cmnd_icontains=' + cmnd + '&ngaycapbang_year=' + namcapbang + '&sohieu=' + sohieu ,
-                        method: 'GET',
-                        contentType: 'application/json',
-                        success: function(response){
-                            $('tbody#content_data').empty()
-                            if (response.count > 0){
-                                for (var i = 0; i < response.results.length; i++){
-                                    record = response.results[i]
-                                    var $row = $('<tr>');
-                                    $row.append('<td>'+ (i+1) +'</td>');
-                                    $row.append('<td>'+ record.hoten +'</td>');
-                                    $row.append('<td>'+ record.ngaysinh +'</td>');
-                                    $row.append('<td>'+ record.gioitinh_display +'</td>');
-                                    $row.append('<td>'+ record.chuyennganh +'</td>');
-                                    $row.append('<td>'+ record.xeploai_display +'</td>');
-                                    $row.append('<td>'+ record.ngaycapbang +'</td>');
-                                    $('tbody#content_data').append($row);
-                                }
-                            } else {
-                                alert('Không tìm thấy thông tin văn bằng!\nVui lòng kiểm tra lại thông tin tra cứu :)')
-                            }
-                        },
-                    });
+        var hoten = $('#hoten').val();
+        var cmnd = $('#chungminhthu').val();
+        var loaivanbang = $('#selectloaivanbang').val();
+        var cosodaotao = $('#selectcosodaotao').val();
+        var namcapbang = $('#namcapbang').val();
+        var sohieu = $('#sohieu').val();
+
+        $.ajax({
+            url: '/api/vanbang/?hoten_icontains='+ hoten + '&loai_vanbang=' + loaivanbang + '&cosodaotao=' + cosodaotao + '&cmnd_icontains=' + cmnd + '&ngaycapbang_year=' + namcapbang + '&sohieu=' + sohieu ,
+            method: 'GET',
+            contentType: 'application/json',
+            success: function(response){
+                $('tbody#content_data').empty()
+                if (response.count > 0){
+                    for (var i = 0; i < response.results.length; i++){
+                        record = response.results[i]
+                        var $row = $('<tr>');
+                        $row.append('<td>'+ (i+1) +'</td>');
+                        $row.append('<td>'+ record.hoten +'</td>');
+                        $row.append('<td>'+ record.ngaysinh +'</td>');
+                        $row.append('<td>'+ record.gioitinh_display +'</td>');
+                        $row.append('<td>'+ record.chuyennganh +'</td>');
+                        $row.append('<td>'+ record.xeploai_display +'</td>');
+                        $row.append('<td>'+ record.ngaycapbang +'</td>');
+                        $('tbody#content_data').append($row);
+                    }
                 } else {
-                    alert('Vui lòng xác thực!')
+                    alert('Không tìm thấy thông tin văn bằng!\nVui lòng kiểm tra lại thông tin tra cứu :)')
                 }
-                event.preventDefault();
             },
-            error: function(){
-                alert('Vui lòng xác thực!');
-                event.preventDefault();
-            }
-        })
+        });
+        $('button#submit').remove();
+        $('#reset').append('<button class="btn btn-danger" onClick="window.location.reload();">Làm mới</button>')
         event.preventDefault();
     })
 
