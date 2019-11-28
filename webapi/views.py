@@ -6,8 +6,73 @@ from .serializers import *
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.permissions import IsAdminUser
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+from django_filters import rest_framework as filter_drf
+from django_filters import DateRangeFilter,DateFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
+
+import xlwt
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+
+def export_xls(request):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="baocao.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Danh sách văn bằng')
+
+    # Sheet header, first row
+    row_num = 0
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    font_title = xlwt.XFStyle()
+    font_title.font.bold = True
+    font_title.height = 200
+
+    alignment = xlwt.Alignment()
+    alignment.horz = xlwt.Alignment.HORZ_CENTER
+    font_title.alignment = alignment
+
+    columns = ['STT', 'Họ tên', 'Ngày sinh', 'Chứng minh thư', 'Loại bằng', 'Cơ sở đào tạo', 'Ngày cấp', 'Xếp loại']
+
+    ws.write_merge(0, 0, 0, len(columns), 'Thống kê văn bằng từ %s đến %s' % (request.GET.get('start_date'), request.GET.get('end_date')), font_title)
+    row_num += 3
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+
+    # Sheet body, remaining rows
+    font_style = xlwt.XFStyle()
+
+    if request.GET.get('loaivanbang') != 'false':
+        loaivanbang = int(request.GET.get('loaivanbang'))
+        rows = VanBang.objects.filter(ngaycapbang__range=[request.GET.get('start_date'), request.GET.get('end_date')],
+                        loai_vanbang=loaivanbang)
+    else:
+        rows = VanBang.objects.filter(ngaycapbang__range=[request.GET.get('start_date'), request.GET.get('end_date')])
+    index = 1
+    for row in rows:
+        key = ['index', 'hoten', 'ngaysinh', 'cmnd', 'loai_vanbang', 'cosodaotao', 'ngaycapbang', 'xeploai']
+        data = dict({
+            'index': str(index),
+            'hoten': row.hoten,
+            'ngaysinh': row.ngaysinh.strftime('%d-%m-%Y'),
+            'cmnd': row.cmnd,
+            'loai_vanbang': row.loai_vanbang.ten,
+            'cosodaotao': row.cosodaotao.ten,
+            'ngaycapbang': row.ngaycapbang.strftime('%d-%m-%Y'),
+            'xeploai': row.get_xeploai_display(),
+        })
+        row_num += 1
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, data[key[col_num]], font_style)
+
+    wb.save(response)
+    return response
+
 
 def index(request):
     return render(request, 'search.html', {
@@ -16,17 +81,28 @@ def index(request):
     })
 
 def report(request):
-    return render(request, 'report.html', {
-        'loaivanbang': LoaiVanBang.objects.all(),
-        'cosodaotao': CoSoDaoTao.objects.all()
-    })
+    if request.user.pk:
+        return render(request, 'report.html', {
+            'loaivanbang': LoaiVanBang.objects.all(),
+            'cosodaotao': CoSoDaoTao.objects.all()
+        })
+    return HttpResponse('No Access!')
 
+
+class VanBangFilter(filter_drf.FilterSet):
+    start_date = DateFilter(field_name='ngaycapbang',lookup_expr=('gte')) 
+    end_date = DateFilter(field_name='ngaycapbang',lookup_expr=('lte'))
+
+    class Meta:
+        model = VanBang
+        fields = ['hoten', 'cmnd', 'cosodaotao', 'ngaycapbang', 'sohieu', 'loai_vanbang', 'start_date', 'end_date']
 
 class VanBangList(generics.ListCreateAPIView):
     queryset = VanBang.objects.all()
     serializer_class = VanBangSerializers
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['hoten', 'cmnd', 'cosodaotao', 'namcapbang', 'sohieu', 'loai_vanbang']
+    filterset_class = VanBangFilter
+    # filterset_fields = ['hoten', 'cmnd', 'cosodaotao', 'ngaycapbang', 'sohieu', 'loai_vanbang']
 
 
     def get(self, request, *args, **kwargs):

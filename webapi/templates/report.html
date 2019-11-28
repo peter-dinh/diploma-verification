@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Tra cứu văn bằng</title>
+  <title>In báo cáo</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,6 +14,10 @@
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static 'src/css/adminlte.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/jquery-ui/jquery-ui.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/select2/css/select2.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/daterangepicker/daterangepicker.css' %}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -35,7 +39,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
-      <span class="brand-text font-weight-light">Tra cứu</span>
+      <span class="brand-text font-weight-light">Báo cáo</span>
     </a>
 
     <!-- Sidebar -->
@@ -65,19 +69,19 @@
           </li>
           {% if request.user.pk %}
           <li class="nav-item">
-            <a href="/report" class="nav-link">
+            <a href="/report"  class="nav-link">
               <i class="nav-icon fa fa-file"></i>
               <p>Báo cáo</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="/docs" class="nav-link">
+            <a href="/docs"  target="_blank" class="nav-link">
               <i class="nav-icon fa fa-book"></i>
               <p>DOC API</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="/api-auth/logout" class="nav-link">
+            <a href="/api-auth/logout?next=/" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>Đăng xuất</p>
             </a>
@@ -104,12 +108,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Profile</h1>
+            <h1>In báo cáo</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">User Profile</li>
+              <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+              <li class="breadcrumb-item active">In báo cáo</li>
             </ol>
           </div>
         </div>
@@ -125,45 +129,49 @@
             <!-- About Me Box -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">About Me</h3>
+                <h3 class="card-title">Điều kiện lọc</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <form class="form-horizontal" id="update_form">
+                <form class="form-horizontal" id="form_filter">
                   {% csrf_token %}
-                  <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName" placeholder="Name">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group row">
+                        <label for="inputEducation" class="col-sm-3 col-form-label">Loại văn bằng</label>
+                        <div class="col-sm-9">
+                          <select class="form-control select2" id="selectloaivanbang" style="width: 100%;">
+                              <option value="false">Tất cả</option>
+                              {% for item in loaivanbang %}
+                                <option value="{{ item.id }}">{{ item.ten }}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group row">
+                        <label for="inputName" class="col-sm-3 col-form-label">Khoảng thời gian</label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">
+                                <i class="far fa-calendar-alt"></i>
+                              </span>
+                            </div>
+                            <input type="text" class="form-control float-right" id="reservation">
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                  <div class="g-recaptcha" data-sitekey="your_site_key"></div>
                   <div class="form-group row">
-                    <label for="inputJob" class="col-sm-2 col-form-label">Job</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputJob" placeholder="Job">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputLocation" class="col-sm-2 col-form-label">Location</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputLocation" placeholder="Location">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputEducation" class="col-sm-2 col-form-label">Education</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputEducation" placeholder="Education">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <div class="offset-sm-2 col-sm-10">
-                      <button type="submit" id="submit" class="btn btn-danger">Submit</button>
+                    <div class="col-sm-12 text-right">
+                      <button type="submit" id="filter" class="btn btn-info">Lọc văn bằng</button>
                     </div>
                   </div>
                 </form>
@@ -183,7 +191,25 @@
               <div class="card-body">
                 <div class="tab-content">
                   <div class="active tab-pane" id="result">
-                    
+                    <table class="table table-bordered">
+                      <thead>                  
+                        <tr>
+                          <th>#</th>
+                          <th>Họ tên</th>
+                          <th>Ngày sinh</th>
+                          <th>Chứng minh thư</th>
+                          <th>Loại bằng</th>
+                          <th>Cơ sở đào tạo</th>
+                          <th>Ngày cấp</th>
+                          <th>Xếp loại</th>
+                        </tr>
+                      </thead>
+                      <tbody id="content_data">
+                      </tbody>
+                    </table>
+                    <div class="col-sm-12 text-right" id="button_report">
+                      
+                    </div>
                   </div>
                   <!-- /.tab-pane -->
                 </div>
@@ -218,6 +244,12 @@
 
 
 <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<script src="{% static 'plugins/select2/js/select2.full.min.js' %}"></script>
+
+<script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+<script src="{% static 'plugins/inputmask/min/jquery.inputmask.bundle.min.js' %}"></script>
+<script src="{% static 'plugins/daterangepicker/daterangepicker.js' %}"></script>
 <!-- Bootstrap 4 -->
 <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <!-- AdminLTE App -->

@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     'rest_framework_swagger',
-    'rest_framework_recaptcha',
     'webapi',
 ]
 
@@ -124,6 +123,8 @@ SWAGGER_SETTINGS = {
     'APIS_SORTER': 'alpha',
     'SECURITY_DEFINITIONS': None,
 }
+
+# RECAPTCHA_DOMAIN = 'www.recaptcha.net'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
