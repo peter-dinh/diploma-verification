@@ -11,9 +11,11 @@ from django_filters import rest_framework as filter_drf
 from django_filters import DateRangeFilter,DateFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
-
+import requests
+from django.views.decorators.csrf import csrf_exempt
 import xlwt
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth.models import User
 
 def export_xls(request):
@@ -87,6 +89,18 @@ def report(request):
             'cosodaotao': CoSoDaoTao.objects.all()
         })
     return HttpResponse('No Access!')
+
+@csrf_exempt
+def verifying(request):
+    if request.method == 'POST':
+        url = "https://www.google.com/recaptcha/api/siteverify?response=%s&secret=6LcEBsUUAAAAACltC8JQCM9u4m6rZ6daJ_ClBWwc" % request.POST.get('response')
+        payload = {}
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        response = requests.request("POST", url, data=payload, headers=headers)
+        return HttpResponse(response, content_type="application/json")
+    return HttpResponse('Error')
 
 
 class VanBangFilter(filter_drf.FilterSet):

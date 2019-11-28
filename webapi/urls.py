@@ -11,6 +11,8 @@ urlpatterns = [
     path('cosodaotao/<int:pk>/', views.CoSoDaoTaoDetail.as_view()),
 
     path('export/xls/', views.export_xls, name='export_xls'),
+    path('verifying/', views.verifying, name='verifying'),
+
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
