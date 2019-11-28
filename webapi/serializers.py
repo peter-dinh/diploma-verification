@@ -18,8 +18,8 @@ class LoaiVanBangSerializer(serializers.ModelSerializer):
 class VanBangSerializers(serializers.ModelSerializer):
     gioitinh = serializers.ChoiceField(choices=CHOICES_GENDER)
     xeploai = serializers.ChoiceField(choices=CHOICES_RANK)
-    gioitinh_display = serializers.CharField(source='get_gioitinh_display')
-    xeploai_display = serializers.CharField(source='get_xeploai_display')
+    gioitinh_display = serializers.CharField(source='get_gioitinh_display', read_only=True)
+    xeploai_display = serializers.CharField(source='get_xeploai_display', read_only=True)
 
     class Meta:
         model = VanBang
