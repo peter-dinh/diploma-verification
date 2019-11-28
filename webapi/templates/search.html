@@ -153,7 +153,7 @@
                       <div class="form-group row">
                         <label for="inputEducation" class="col-sm-3 col-form-label">Loại văn bằng</label>
                         <div class="col-sm-9">
-                          <select class="form-control select2" id="selectloaivanbang" style="width: 100%;">
+                          <select class="form-control select2"  required="1" id="selectloaivanbang" style="width: 100%;">
                               {% for item in loaivanbang %}
                                 <option value="{{ item.id }}">{{ item.ten }}</option>
                               {% endfor %}
@@ -165,7 +165,7 @@
                       <div class="form-group row">
                         <label for="inputEducation" class="col-sm-3 col-form-label">Cơ sở đào tạo</label>
                         <div class="col-sm-9">
-                          <select class="form-control select2" id="selectcosodaotao" style="width: 100%;">
+                          <select class="form-control select2"  required="1" id="selectcosodaotao" style="width: 100%;">
                             {% for item in cosodaotao %}
                               <option value="{{ item.id }}">{{ item.ten }}</option>
                             {% endfor %}
@@ -179,7 +179,7 @@
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-3 col-form-label">Họ tên</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" id="hoten">
+                          <input type="text" class="form-control" id="hoten" required="1">
                         </div>
                       </div>
                     </div>
@@ -187,7 +187,7 @@
                       <div class="form-group row">
                         <label for="inputLocation" class="col-sm-3 col-form-label">Chứng minh thư</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" id="chungminhthu">
+                          <input type="text" class="form-control" id="chungminhthu" required="1">
                         </div>
                       </div>
                     </div>
@@ -198,7 +198,7 @@
                       <div class="form-group row">
                         <label for="inputSkills" class="col-sm-3 col-form-label">Năm cấp bằng</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" id="namcapbang">
+                          <input type="text" class="form-control" id="namcapbang" required="1">
                         </div>
                       </div>
                     </div>
@@ -206,7 +206,7 @@
                       <div class="form-group row">
                         <label for="inputSkills" class="col-sm-3 col-form-label">Số hiệu</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" id="sohieu">
+                          <input type="text" class="form-control" id="sohieu" required="1">
                         </div>
                       </div>
                     </div>

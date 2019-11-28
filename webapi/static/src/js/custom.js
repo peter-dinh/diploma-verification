@@ -12,12 +12,15 @@ $(document).ready(function(){
             format: 'YYYY-M-DD',
         }
     })
-     
+    
     $('#form_tracuu').submit(function(){
         $.ajax({
-            url: 'https://www.google.com/recaptcha/api/siteverify?secret=6LcEBsUUAAAAACltC8JQCM9u4m6rZ6daJ_ClBWwc&response='+localStorage.res_capcha,
+            url: '/api/verifying/',
             method: 'POST',
-            contentType: 'application/json',
+            contentType: 'application/x-www-form-urlencoded',
+            data: {
+                response: localStorage.res_capcha,
+            },
             success: function(response){
                 if (response.success){
                     var hoten = $('#hoten').val();
