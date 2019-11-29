@@ -25,8 +25,28 @@ $(document).ready(function(){
         var namcapbang = $('#namcapbang').val();
         var sohieu = $('#sohieu').val();
 
+        var url = '/api/vanbang/?';
+        if (hoten){
+            url += 'hoten_icontains=' + hoten + '&';
+        }
+        if (cmnd){
+            url += 'cmnd_icontains=' + cmnd + '&';
+        }
+        if (loaivanbang){
+            url += 'loai_vanbang=' + loaivanbang + '&';
+        }
+        if (cosodaotao){
+            url += 'cosodaotao=' + cosodaotao + '&';
+        }
+        if (namcapbang){
+            url += 'ngaycapbang_year=' + namcapbang + '&';
+        }
+        if (sohieu){
+            url += 'sohieu=' + sohieu + '&';
+        }
+        // '/api/vanbang/?hoten_icontains='+ hoten + '&loai_vanbang=' + loaivanbang + '&cosodaotao=' + cosodaotao + '&cmnd_icontains=' + cmnd + '&ngaycapbang_year=' + namcapbang + '&sohieu=' + sohieu
         $.ajax({
-            url: '/api/vanbang/?hoten_icontains='+ hoten + '&loai_vanbang=' + loaivanbang + '&cosodaotao=' + cosodaotao + '&cmnd_icontains=' + cmnd + '&ngaycapbang_year=' + namcapbang + '&sohieu=' + sohieu ,
+            url: url ,
             method: 'GET',
             contentType: 'application/json',
             success: function(response){
