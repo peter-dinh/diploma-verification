@@ -1,0 +1,19 @@
+version: '3'
+
+networks:
+  web-net:
+    external: false
+
+  
+services: 
+  web:
+    build: .
+    container_name: django
+    command: python manage.py runserver 0.0.0.0:8000
+    restart: always
+    ports: 
+      - "8000:8000"
+
+    networks: 
+      - web-net
+

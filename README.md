@@ -17,3 +17,6 @@ password: 12346789a
 ### Danh Dach API:
 
 >https://peterdinh123.pythonanywhere.com/docs/
+
+
+ENV PYTHONUNBUFFERED 1
